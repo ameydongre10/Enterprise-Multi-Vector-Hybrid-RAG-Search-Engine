@@ -13,7 +13,8 @@ An enterprise-grade, asynchronous, multi-vector hybrid search and context engine
 **Author**: Amey Dongre  
 **Live Frontend Application**: [https://enterprise-multi-vector-hybrid-rag.vercel.app](https://enterprise-multi-vector-hybrid-rag.vercel.app)  
 **Live Backend API Server**: [https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com)  
-**Swagger API Specifications**: [https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs)
+**Swagger API Specifications**: [https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs)  
+**Detailed Technical Working Document**: [ARCHITECTURE_AND_WORKING.md](ARCHITECTURE_AND_WORKING.md)
 
 ---
 
@@ -136,6 +137,7 @@ enterprise-hybrid-rag/
 │   ├── package.json
 │   ├── vite.config.js
 │   └── vercel.json                 # Vercel deployment configuration
+├── ARCHITECTURE_AND_WORKING.md     # Detailed Technical Working & Pipeline Documentation
 ├── DEPLOYMENT.md                  # Vercel + Render Production Deployment Architecture
 ├── render.yaml                     # Render Infrastructure-as-Code Blueprint
 ├── run_dev.py                      # One-click dev server launcher script
@@ -185,11 +187,11 @@ python run_dev.py
 ## 🌐 Production Cloud Architecture
 
 The application is deployed across a decoupled multi-cloud architecture:
-- **Frontend CDN**: Deployed on **Vercel** Edge Network (`https://enterprise-multi-vector-hybrid-rag.vercel.app`)
-- **Backend API**: Deployed on **Render** Web Service (`https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com`)
+- **Frontend CDN**: Deployed on **Vercel** Edge Network ([https://enterprise-multi-vector-hybrid-rag.vercel.app](https://enterprise-multi-vector-hybrid-rag.vercel.app))
+- **Backend API**: Deployed on **Render** Web Service ([https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com))
 - **Database**: Managed **PostgreSQL 16** with native `pgvector` extension support.
 
-For complete cloud deployment instructions, see **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+For complete cloud deployment instructions, see **[DEPLOYMENT.md](DEPLOYMENT.md)** and **[ARCHITECTURE_AND_WORKING.md](ARCHITECTURE_AND_WORKING.md)**.
 
 ---
 
