@@ -5,16 +5,19 @@
 [![React 18](https://img.shields.io/badge/React-18.2-61DAFB.svg?logo=react&logoColor=black)](https://reactjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16--pgvector-4169E1.svg?logo=postgresql&logoColor=white)](https://github.com/pgvector/pgvector)
 [![Google Gemini 2.5](https://img.shields.io/badge/LLM-Gemini_2.5_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
-[![Evaluation](https://img.shields.io/badge/Evaluation-Ragas_Framework-FF6F00.svg)](https://github.com/explodinggradients/ragas)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Deployment-Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](https://vercel.com/)
+[![Deployment-Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=white)](https://render.com/)
 
 An enterprise-grade, asynchronous, multi-vector hybrid search and context engineering engine built to solve critical information retrieval (IR) failure modes in real-world unstructured corporate data (financial filings, medical records, legal contracts, and complex tabular data).
 
-Built with **Python (FastAPI)**, **PostgreSQL + pgvector**, **Redis & Celery**, **Google Gemini 2.5 Flash**, and **React + Vite**.
+**Author**: Amey Dongre  
+**Live Frontend Application**: [https://enterprise-multi-vector-hybrid-rag.vercel.app](https://enterprise-multi-vector-hybrid-rag.vercel.app)  
+**Live Backend API Server**: [https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com)  
+**Swagger API Specifications**: [https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs](https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com/docs)
 
 ---
 
-## 📌 Executive Summary: Why Standard RAG Fails in Enterprise
+## 📌 Executive Summary: Enterprise IR Challenges Solved
 
 In enterprise environments, standard monolithic RAG implementations fail due to 4 core architectural breakdown points:
 
@@ -44,10 +47,6 @@ Synthesizes answers strictly grounded in retrieved evidence, embedding clickable
 ### 5. Ragas Automated Evaluation Framework
 Built-in automated benchmark suite measuring **Faithfulness** (hallucination resistance), **Answer Relevance**, **Context Recall**, and **Context Precision**.
 
-### 6. Dual-Engine Fallback Resilience
-- **Production Engine**: PostgreSQL 16 + `pgvector` spatial indexing + GIN `tsvector` indices with Celery + Redis task workers.
-- **Standalone Local Engine**: Integrated SQLite + NumPy normalized cosine engine + rank-BM25 fallback for zero-dependency execution out-of-the-box.
-
 ---
 
 ## 📐 System Architecture
@@ -63,7 +62,7 @@ graph TD
         D --> E[2. Global Document Summary Generator]
         E --> F[3. Contextualized Parent-Child Chunking]
         F --> G[4. Dense Vectorization & Full-Text Tokenization]
-        G --> H[(PostgreSQL + pgvector / Local DB)]
+        G --> H[(PostgreSQL + pgvector / Production DB)]
     end
 
     I[User Query] -->|POST /api/v1/query| J[FastAPI Real-Time Query Engine]
@@ -82,7 +81,7 @@ graph TD
 
 ---
 
-## 📊 Ragas Quality Benchmarks
+## 📊 Quality Benchmarks (Ragas Framework)
 
 | Metric Name | Benchmark Score | Description |
 | :--- | :---: | :--- |
@@ -101,7 +100,7 @@ enterprise-hybrid-rag/
 │   ├── app/
 │   │   ├── main.py                 # FastAPI ASGI application & timing middleware
 │   │   ├── config.py               # Settings & Pydantic configuration
-│   │   ├── database.py             # PostgreSQL + SQLite fallback database layer
+│   │   ├── database.py             # PostgreSQL + pgvector database layer
 │   │   ├── models/                 # Pydantic schemas (Document, Query, Evaluation)
 │   │   │   ├── document.py
 │   │   │   └── query.py
@@ -137,8 +136,7 @@ enterprise-hybrid-rag/
 │   ├── package.json
 │   ├── vite.config.js
 │   └── vercel.json                 # Vercel deployment configuration
-├── FREE_DEPLOYMENT.md              # 100% Free Cloud Deployment Guide ($0/mo)
-├── DEPLOYMENT.md                  # Vercel + Render Production Deployment Guide
+├── DEPLOYMENT.md                  # Vercel + Render Production Deployment Architecture
 ├── render.yaml                     # Render Infrastructure-as-Code Blueprint
 ├── run_dev.py                      # One-click dev server launcher script
 └── README.md                       # Comprehensive documentation
@@ -163,7 +161,7 @@ Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
-To enable live Gemini embeddings and answer synthesis, add your API key:
+Add your Gemini API key:
 ```env
 GEMINI_API_KEY="your-google-gemini-api-key"
 ```
@@ -174,7 +172,7 @@ cd ../frontend
 npm install
 ```
 
-### 4. One-Click Launcher
+### 4. One-Click Dev Server
 Launch both backend (FastAPI Uvicorn) and frontend (Vite) concurrently with a single command from root:
 ```bash
 python run_dev.py
@@ -184,28 +182,36 @@ python run_dev.py
 
 ---
 
-## 🧪 Verification & Test Execution
+## 🌐 Production Cloud Architecture
 
-Run the backend Pytest suite:
+The application is deployed across a decoupled multi-cloud architecture:
+- **Frontend CDN**: Deployed on **Vercel** Edge Network (`https://enterprise-multi-vector-hybrid-rag.vercel.app`)
+- **Backend API**: Deployed on **Render** Web Service (`https://enterprise-multi-vector-hybrid-rag-search-engine.onrender.com`)
+- **Database**: Managed **PostgreSQL 16** with native `pgvector` extension support.
+
+For complete cloud deployment instructions, see **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+---
+
+## 🧪 Test Execution
+
+Run the Pytest suite:
 ```bash
 cd backend
 python -m pytest tests/
 ```
-All 6 test modules verify:
+All test modules verify:
 - Reciprocal Rank Fusion (RRF) mathematical score calculations.
 - Contextualized Parent-Child chunking header prepending.
 - API endpoints (`/health`, `/documents`, `/query`, `/evaluate`).
 
 ---
 
-## 🌐 100% Free Cloud Deployment ($0/month)
+## 👤 Author
 
-Deploy the system online for free without credit card requirements:
-- **Frontend**: **Vercel** (Free Tier for React/Vite).
-- **Backend API**: **Render Web Service** (Free Tier, running FastAPI `BackgroundTasks`).
-- **PostgreSQL Database**: **Supabase** (Free 500MB PostgreSQL with pre-installed `pgvector`).
-
-👉 See the complete **[100% Free Deployment Guide (FREE_DEPLOYMENT.md)](FREE_DEPLOYMENT.md)** for step-by-step instructions.
+**Amey Dongre**  
+- **GitHub**: [@ameydongre10](https://github.com/ameydongre10)  
+- **Project Repository**: [Enterprise Multi-Vector Hybrid RAG Search Engine](https://github.com/ameydongre10/Enterprise-Multi-Vector-Hybrid-RAG-Search-Engine)
 
 ---
 
